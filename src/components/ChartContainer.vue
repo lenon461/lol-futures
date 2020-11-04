@@ -27,6 +27,7 @@ export default class ChartContainer extends Vue {
   });
   private candleSeries = this.chart.addCandlestickSeries();
 
+  private day = 15;
   created() {
     console.log("created");
   }
@@ -50,8 +51,10 @@ export default class ChartContainer extends Vue {
     ]);
   }
   public updateChart(data: any) {
+    const day = this.day;
+    this.day++;
     this.candleSeries.update({
-      time: "2021-10-11",
+      time: `2020-10-${day}`,
       open: 54.62,
       high: 55.5,
       low: 54.52,

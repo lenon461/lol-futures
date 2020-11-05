@@ -4,8 +4,9 @@
 
 <script>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import {createChart, CrosshairMode} from "lightweight-charts";
+import { createChart, CrosshairMode } from "lightweight-charts";
 // import { widget } from '../charting_library.min';
+// lightweight-charts.esm.development.js
 const chart = createChart(document.body, {
   width: 600,
   height: 300,

@@ -13,8 +13,9 @@ import {
   IChartApi,
   ISeriesApi
 } from "lightweight-charts";
-// import { widget } from '../charting_library.min';
-// lightweight-charts.esm.development.js
+import moment from "moment";
+import Api from "../api";
+
 @Component
 export default class ChartContainer extends Vue {
   private chartHTMLElement = document.getElementById("chart") || document.body;
@@ -26,8 +27,9 @@ export default class ChartContainer extends Vue {
     }
   });
   private candleSeries = this.chart.addCandlestickSeries();
+  private feed = [];
 
-  private day = 15;
+  public lastUpdateTime = moment();
   created() {
     console.log("created");
   }
@@ -36,30 +38,23 @@ export default class ChartContainer extends Vue {
 
     this.initChart();
     this.chart.timeScale().subscribeVisibleTimeRangeChange((param: any) => {
-      console.log("param.from.day, param.to.day");
-      console.log(param.from.day, param.to.day);
+      // console.log("param.from.day, param.to.day");
+      // console.log(param.from.day, param.to.day);
     });
   }
 
-  public initChart() {
-    this.candleSeries.setData([
-      { time: "2020-10-10", open: 54.62, high: 55.5, low: 54.52, close: 54.9 },
-      { time: "2020-10-11", open: 54.62, high: 55.5, low: 54.52, close: 54.9 },
-      { time: "2020-10-12", open: 54.62, high: 55.5, low: 54.52, close: 54.9 },
-      { time: "2020-10-13", open: 54.62, high: 55.5, low: 54.52, close: 54.9 },
-      { time: "2020-10-14", open: 54.62, high: 55.5, low: 54.52, close: 54.9 }
-    ]);
+  public async initChart() {
+    const response = await Api.Chart.getCandles({});
+    this.feed = response.data;
+    this.candleSeries.setData(this.feed);
   }
-  public updateChart(data: any) {
-    const day = this.day;
-    this.day++;
-    this.candleSeries.update({
-      time: `2020-10-${day}`,
-      open: 54.62,
-      high: 55.5,
-      low: 54.52,
-      close: 54.9
+  public async updateChart(data: any) {
+    const response = await Api.Chart.getCandles({
+      time: this.lastUpdateTime.format("YYYY-MM-DD")
     });
+    this.lastUpdateTime = this.lastUpdateTime.add(1, "days");
+    const candle = response.data.pop();
+    this.candleSeries.update(candle);
   }
 }
 </script>

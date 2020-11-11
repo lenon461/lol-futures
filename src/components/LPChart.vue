@@ -17,7 +17,7 @@ import moment from "moment";
 import Api from "../api";
 
 @Component
-export default class ChartContainer extends Vue {
+export default class LPChart extends Vue {
   private chartHTMLElement = document.getElementById("chart") || document.body;
   private chart = createChart(this.chartHTMLElement, {
     width: 600,
@@ -26,7 +26,7 @@ export default class ChartContainer extends Vue {
       mode: CrosshairMode.Normal
     }
   });
-  private candleSeries = this.chart.addCandlestickSeries();
+  private areaSeries = this.chart.addAreaSeries();
   private volumeSeries = this.chart.addHistogramSeries({});
   private feed = [];
 
@@ -56,27 +56,12 @@ export default class ChartContainer extends Vue {
   }
 
   public async initChart() {
-    const response = await Api.Chart.getCandles({
+    const response = await Api.Chart.getLPs({
       from: this.lastStartTime.valueOf(),
       to: this.lastUpdateTime.valueOf()
     });
     this.feed = response.data;
-    this.candleSeries.setData(this.feed);
-  }
-  public async updatePreviousChart(visibleStartTime: moment.Moment) {
-    console.log({
-      from: visibleStartTime
-        .subtract(this.logicalRangeValue, "days")
-        .toLocaleString(),
-      to: visibleStartTime.toLocaleString()
-    });
-    const response = await Api.Chart.getCandles({
-      from: 1586044400000,
-      to: visibleStartTime.valueOf()
-    });
-    this.lastUpdateTime = this.lastUpdateTime.add(1, "days");
-    const candle = response.data.pop();
-    this.candleSeries.update(candle);
+    this.areaSeries.setData(this.feed);
   }
 
   public async updateChart(startTime: number) {
@@ -85,7 +70,7 @@ export default class ChartContainer extends Vue {
     });
     this.lastUpdateTime = this.lastUpdateTime.add(1, "days");
     const candle = response.data.pop();
-    this.candleSeries.update(candle);
+    this.areaSeries.update(candle);
   }
 }
 </script>

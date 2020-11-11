@@ -6,6 +6,11 @@ export default {
             return axios.get("/chart", {
                 params
             })
+        },
+        getLPs(params: any) {
+            return axios.get("/chart/lp", {
+                params
+            })
         }
     }
 }

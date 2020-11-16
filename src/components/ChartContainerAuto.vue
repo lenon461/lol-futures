@@ -11,8 +11,8 @@ const chart = createChart(document.body, {
   width: 600,
   height: 300,
   crosshair: {
-    mode: CrosshairMode.Normal
-  }
+    mode: CrosshairMode.Normal,
+  },
 });
 
 function getRandomPrice() {
@@ -170,7 +170,7 @@ const data = [
   { time: "2019-05-22", open: 59.09, high: 59.37, low: 58.96, close: 59.25 },
   { time: "2019-05-23", open: 59.0, high: 59.27, low: 58.54, close: 58.87 },
   { time: "2019-05-24", open: 59.07, high: 59.36, low: 58.67, close: 59.32 },
-  { time: "2019-05-28", open: 59.21, high: 59.66, low: 59.02, close: 59.57 }
+  { time: "2019-05-28", open: 59.21, high: 59.66, low: 59.02, close: 59.57 },
 ];
 
 candleSeries.setData(data);
@@ -189,7 +189,7 @@ let currentBar = {
   high: null,
   low: null,
   close: null,
-  time: currentBusinessDay
+  time: currentBusinessDay,
 };
 
 function mergeTickToBar(price) {
@@ -228,11 +228,11 @@ function nextBusinessDay(time) {
   return {
     year: d.getUTCFullYear(),
     month: d.getUTCMonth() + 1,
-    day: d.getUTCDate()
+    day: d.getUTCDate(),
   };
 }
 
-setInterval(function() {
+setInterval(function () {
   const deltaY = targetPrice - lastClose;
   const deltaX = targetIndex - lastIndex;
   const angle = deltaY / deltaX;
@@ -249,7 +249,7 @@ setInterval(function() {
       high: null,
       low: null,
       close: null,
-      time: currentBusinessDay
+      time: currentBusinessDay,
     };
     ticksInCurrentBar = 0;
     if (currentIndex === 5000) {

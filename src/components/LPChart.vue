@@ -24,7 +24,7 @@ export default class LPChart extends Vue {
     width: 600,
     height: 300,
   });
-  private areaSeries = this.chart.addAreaSeries();
+  private lineSeries = this.chart.addLineSeries();
   private feed = [];
 
   created() {
@@ -34,15 +34,27 @@ export default class LPChart extends Vue {
   mounted() {
     console.log("mounted");
     this.initChart();
+    this.updateLine()
   }
 
   public async initChart() {
     const response = await Api.Chart.getLPs({});
     this.feed = response.data;
-    this.areaSeries.setData(this.feed);
+    this.lineSeries.setData(this.feed);
   }
+  public async updateLine() {
+    const updateCallback = (...args) => {
+      this.lineSeries.update(args[0]);
+    }
+    socket.on("Faker@kline", updateCallback)
+  }
+
   public test() {
-    socket.emit();
+    let count = 1;
+    
+    setInterval(() => {
+      socket.emit("Faker@kline", {count: count++});
+    }, 1000)
   }
 }
 </script>

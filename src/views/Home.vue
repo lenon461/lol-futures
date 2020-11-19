@@ -19,9 +19,9 @@ import LPChart from "@/components/LPChart.vue"; // @ is an alias to /src
 @Component({
   components: {
     ChartContainer,
-    LPChart,
+    LPChart
     // ChartContainerAuto
-  },
+  }
 })
 export default class Home extends Vue {}
 </script>

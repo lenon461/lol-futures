@@ -12,5 +12,12 @@ export default {
         params
       });
     }
+  },
+  Point: {
+    getPoints(params: any) {
+      return axios.get("/points/Hide on bush/chart", {
+        params
+      });
+    },
   }
 };

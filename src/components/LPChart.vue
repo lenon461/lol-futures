@@ -38,14 +38,14 @@ export default class LPChart extends Vue {
     this.updateLine();
 
     this.chart.timeScale().subscribeVisibleLogicalRangeChange((param: any) => {
-      console.log("subscribeVisibleLogicalRangeChange");
-      console.log(param)
+      // console.log("subscribeVisibleLogicalRangeChange");
+      // console.log(param)
     });
     
   }
 
   public async initChart() {
-    const response = await Api.Chart.getLPs({});
+    const response = await Api.Point.getPoints({});
     this.feed = response.data;
     this.lineSeries.setData(this.feed);
     

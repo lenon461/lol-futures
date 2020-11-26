@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+/public/charting_library
+/public/datafeeds
 
 # local env files
 .env.local

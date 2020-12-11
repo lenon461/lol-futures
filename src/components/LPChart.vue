@@ -26,7 +26,7 @@ export default class LPChart extends Vue {
     height: 300
   });
   private lineSeries = this.chart.addLineSeries();
-  private feed:any = [];
+  private feed: any = [];
 
   created() {
     console.log("created");
@@ -41,14 +41,12 @@ export default class LPChart extends Vue {
       // console.log("subscribeVisibleLogicalRangeChange");
       // console.log(param)
     });
-    
   }
 
   public async initChart() {
     const response = await Api.Point.getPoints({});
     this.feed = response.data;
     this.lineSeries.setData(this.feed);
-    
 
     this.chart.timeScale().subscribeVisibleTimeRangeChange((param: any) => {
       // console.log("subscribeVisibleTimeRangeChange");
@@ -70,9 +68,8 @@ export default class LPChart extends Vue {
     }, 1000);
   }
   public async loadPrevData() {
-    
-    const response = await Api.Chart.getLPs({to: "2019-05-07", count: 100});
-    this.feed = [...response.data ,...this.feed]
+    const response = await Api.Chart.getLPs({ to: "2019-05-07", count: 100 });
+    this.feed = [...response.data, ...this.feed];
     this.lineSeries.setData(this.feed);
   }
 }

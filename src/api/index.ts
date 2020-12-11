@@ -18,6 +18,6 @@ export default {
       return axios.get("/points/Hide on bush/chart", {
         params
       });
-    },
+    }
   }
 };
